@@ -6,3 +6,5 @@ class todo{
         this.importancia = importancia;
     }
 }
+
+export default todo;

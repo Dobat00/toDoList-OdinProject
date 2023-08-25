@@ -3,7 +3,6 @@ import todo from "./todoClass";
 
 const divContent = document.querySelector('.content')
 
-let botaoLigado = false;
 let projetoButton = document.createElement('button');
 
 let arrayProjetos = [];
@@ -12,19 +11,17 @@ let arrayTodos = [];
 const createScreen = () => {
     let divScreen = document.createElement('div')
     divScreen.classList.add('divScreen')
-    divContent.appendChild(divScreen)
-
-    // let projetoButton = document.createElement('button');
+    
     projetoButton.classList.add('projetoButton');
     projetoButton.textContent = 'Novo projeto'
-
+    
     projetoButton.addEventListener('click', (e)=>{
         projetoButton.disabled = true;
-        botaoLigado = false;
         let divProjeto = gerarProjeto();
         divScreen.appendChild(divProjeto)
     })
-
+    
+    divContent.appendChild(divScreen)
     divScreen.appendChild(projetoButton)   
     
 }
@@ -100,16 +97,15 @@ const gerarProjeto = () =>{
         novoProjeto(projetoInput.value)
         divProjeto.hidden = true
         projetoButton.disabled = false;
-        displayProjetos();
+        displayProjetos()
     })
     return divProjeto
 }
 
 
 const displayProjetos = () => {
-    let divDisplayProjetos = document.createElement('div')
-    divDisplayProjetos.classList.add('divDisplayProjetos')
-    divDisplayProjetos.innerHTML = ''
+    let div = document.createElement('div')
+    div.classList.add('divDisplayProjetos')
 
     arrayProjetos.forEach(element => {
         //botao que mostra os 'todos' dentro de um projeto
@@ -125,13 +121,14 @@ const displayProjetos = () => {
         buttonAdicionarTodo.classList.add('botaoProjetos')
         buttonAdicionarTodo.textContent = '+'
         buttonAdicionarTodo.addEventListener('click', (e) =>{
-            divContent.appendChild(gerarTodo())
+            div.appendChild(gerarTodo())
         })
         
-        divDisplayProjetos.appendChild(button)
-        divDisplayProjetos.appendChild(buttonAdicionarTodo)
+        div.appendChild(button)
+        div.appendChild(buttonAdicionarTodo)
     });
-    divContent.appendChild(divDisplayProjetos)
+
+    divContent.appendChild(div)
 }
 
 const novoProjeto = (nome) => {
@@ -148,10 +145,9 @@ const novoTodo = (nome, desc, dataLimite, importancia) => {
     return todo
 }
 
-// const mostrarProjetos = () => {
+// const renderProjetos = (div) => {
 //     arrayProjetos.forEach(element => {
-//         let div = document.createElement('div')
-//         div.appendChild(element.nome)
+//         div.texcontent += element.nome
 //     })
 
 // }
