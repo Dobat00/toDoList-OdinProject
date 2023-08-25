@@ -2,23 +2,28 @@ import project from "./projectClass"
 
 const divContent = document.querySelector('.content')
 
+let botaoLigado = false;
+let projetoButton = document.createElement('button');
+
 const createScreen = () => {
     let divScreen = document.createElement('div')
     divScreen.classList.add('divScreen')
     divContent.appendChild(divScreen)
 
-    let projetoButton = document.createElement('button');
+    // let projetoButton = document.createElement('button');
     projetoButton.classList.add('projetoButton');
     projetoButton.textContent = 'Novo projeto'
 
     projetoButton.addEventListener('click', (e)=>{
         projetoButton.disabled = true;
+        botaoLigado = false;
 
         let divProjeto = gerarProjeto();
         divScreen.appendChild(divProjeto)
     })
 
     divScreen.appendChild(projetoButton)   
+    
 }
 
 
@@ -82,7 +87,10 @@ const gerarProjeto = () =>{
     divProjeto.appendChild(projetoSubmit)
 
     projetoSubmit.addEventListener('click', (e) => {
-        
+        let projeto = new project(projetoInput.value)
+        console.log(projeto)
+        divProjeto.hidden = true
+        projetoButton.disabled = false;
     })
 
 
