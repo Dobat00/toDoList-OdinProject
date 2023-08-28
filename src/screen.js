@@ -79,7 +79,9 @@ const gerarTodo = () =>{
         let todoObject = new todo(tituloInput.value, descricaoInput.value, dataInput.value, importanciaInput.value)
         arrayTodos.push(todoObject)
         console.log(arrayTodos)
+        console.log(todoButton.parentElement)
         divTodo.hidden = true
+        
     })
     divTodo.appendChild(todoButton)
 
