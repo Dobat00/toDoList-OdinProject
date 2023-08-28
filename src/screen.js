@@ -2,6 +2,7 @@ import project from "./projectClass"
 import todo from "./todoClass";
 
 const divContent = document.querySelector('.content')
+let divDisplayProjetos = document.createElement('div')
 
 let projetoButton = document.createElement('button');
 
@@ -14,15 +15,19 @@ const createScreen = () => {
     
     projetoButton.classList.add('projetoButton');
     projetoButton.textContent = 'Novo projeto'
+
+    divDisplayProjetos.classList.add('divDisplayProjetos')
     
     projetoButton.addEventListener('click', (e)=>{
         projetoButton.disabled = true;
         let divProjeto = gerarProjeto();
         divScreen.appendChild(divProjeto)
+        
     })
     
-    divContent.appendChild(divScreen)
     divScreen.appendChild(projetoButton)   
+    divScreen.appendChild(divDisplayProjetos)
+    divContent.appendChild(divScreen)
     
 }
 
@@ -70,15 +75,21 @@ const gerarTodo = () =>{
     let todoButton = document.createElement('button')
     todoButton.classList.add('botaoProjetos')
     todoButton.textContent = 'Criar "To do"'
+    todoButton.addEventListener('click', (e) =>{
+        let todoObject = new todo(tituloInput.value, descricaoInput.value, dataInput.value, importanciaInput.value)
+        arrayTodos.push(todoObject)
+        console.log(arrayTodos)
+        divTodo.hidden = true
+    })
     divTodo.appendChild(todoButton)
 
-
+    divContent.appendChild(divTodo)
     return divTodo;
 }
 
 const gerarProjeto = () =>{
-    let divProjeto = document.createElement('div')
-    divProjeto.classList.add('divProjeto')
+    let divCriarProjeto = document.createElement('div')
+    divCriarProjeto.classList.add('divCriarProjeto')
     
     let labelTitulo = document.createElement('label')
     labelTitulo.textContent = 'Nome do projeto';
@@ -88,47 +99,18 @@ const gerarProjeto = () =>{
     let projetoSubmit = document.createElement('button')
     projetoSubmit.textContent = 'Criar projeto!'
 
-    divProjeto.appendChild(labelTitulo)
-    divProjeto.appendChild(projetoInput)
-    divProjeto.appendChild(projetoSubmit)
+    divCriarProjeto.appendChild(labelTitulo)
+    divCriarProjeto.appendChild(projetoInput)
+    divCriarProjeto.appendChild(projetoSubmit)
 
     //botao que da submite as informacoes do projeto (cria projetos)
     projetoSubmit.addEventListener('click', (e) => {
         novoProjeto(projetoInput.value)
-        divProjeto.hidden = true
+        divCriarProjeto.hidden = true
         projetoButton.disabled = false;
-        displayProjetos()
+        renderProjetos(divDisplayProjetos)
     })
-    return divProjeto
-}
-
-
-const displayProjetos = () => {
-    let div = document.createElement('div')
-    div.classList.add('divDisplayProjetos')
-
-    arrayProjetos.forEach(element => {
-        //botao que mostra os 'todos' dentro de um projeto
-        let button = document.createElement('button')
-        button.classList.add('botaoProjetos')
-        button.textContent = element.nome;
-        button.addEventListener('click' ,(e)=>{
-            console.log('oi')
-        })
-        
-        //botao que permite o usuario adicionar um todo ao projeto
-        let buttonAdicionarTodo = document.createElement('button')
-        buttonAdicionarTodo.classList.add('botaoProjetos')
-        buttonAdicionarTodo.textContent = '+'
-        buttonAdicionarTodo.addEventListener('click', (e) =>{
-            div.appendChild(gerarTodo())
-        })
-        
-        div.appendChild(button)
-        div.appendChild(buttonAdicionarTodo)
-    });
-
-    divContent.appendChild(div)
+    return divCriarProjeto
 }
 
 const novoProjeto = (nome) => {
@@ -138,19 +120,29 @@ const novoProjeto = (nome) => {
     return projeto
 }
 
-const novoTodo = (nome, desc, dataLimite, importancia) => {
-    let todo = new todo(nome, desc, dataLimite, importancia);
-    arrayTodos.push(todo)
-    console.log(arrayTodos)
-    return todo
+
+const renderProjetos = (div) => {
+    div.textContent = ''
+    arrayProjetos.forEach(element => {
+        let button = document.createElement('button')
+        let buttonTodo = addTodo();
+        
+        button.textContent = element.nome
+        div.appendChild(button)
+        div.appendChild(buttonTodo)
+        
+    })
 }
 
-// const renderProjetos = (div) => {
-//     arrayProjetos.forEach(element => {
-//         div.texcontent += element.nome
-//     })
+const addTodo = () =>{
+    let button = document.createElement('button')
+    button.textContent = '+'
+    button.addEventListener('click', (e) => {
+        gerarTodo()
+    })
 
-// }
+    return button
+}
 
 
 
