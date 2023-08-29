@@ -32,7 +32,7 @@ const createScreen = () => {
 }
 
 
-const gerarTodo = () =>{
+const gerarTodo = (objeto) =>{
     let divTodo = document.createElement('div')
     divTodo.classList.add('divTodo')
 
@@ -77,6 +77,7 @@ const gerarTodo = () =>{
     todoButton.textContent = 'Criar "To do"'
     todoButton.addEventListener('click', (e) =>{
         let todoObject = new todo(tituloInput.value, descricaoInput.value, dataInput.value, importanciaInput.value)
+        objeto.todo = todoObject;
         arrayTodos.push(todoObject)
         console.log(arrayTodos)
         console.log(todoButton.parentElement)
@@ -119,6 +120,7 @@ const novoProjeto = (nome) => {
     let projeto = new project(nome);
     arrayProjetos.push(projeto)
     console.log(arrayProjetos)
+    gerarTodo(projeto)
     return projeto
 }
 
@@ -127,24 +129,33 @@ const renderProjetos = (div) => {
     div.textContent = ''
     arrayProjetos.forEach(element => {
         let button = document.createElement('button')
-        let buttonTodo = addTodo();
+        let buttonTodo = document.createElement('button')
+        buttonTodo.textContent = "+"
+
+        button.addEventListener('click', (e) =>{
+            console.log(arrayProjetos)
+        })
+
+        // buttonTodo.addEventListener('click', (e) =>{
+        //     gerarTodo()
+        // })
         
         button.textContent = element.nome
         div.appendChild(button)
-        div.appendChild(buttonTodo)
+        // div.appendChild(buttonTodo)
         
     })
 }
 
-const addTodo = () =>{
-    let button = document.createElement('button')
-    button.textContent = '+'
-    button.addEventListener('click', (e) => {
-        gerarTodo()
-    })
+// const addTodo = () =>{
+//     let button = document.createElement('button')
+//     button.textContent = '+'
+//     button.addEventListener('click', (e) => {
+//         gerarTodo()
+//     })
 
-    return button
-}
+//     return button
+// }
 
 
 
